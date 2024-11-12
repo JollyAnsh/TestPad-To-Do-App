@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .left-pane, .right-pane {
+            width: 45%;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin: 0 0 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 10px);
+            padding: 8px;
+            font-size: 1em;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-pane">
+            <h2>Task List</h2>
+            <ul id="taskList">
+                <!-- Tasks will be added here dynamically -->
+            </ul>
+        </div>
+        <div class="right-pane">
+            <h2>I need to...</h2>
+            <form id="taskForm">
+                <input type="text" id="taskInput" placeholder="Enter a new task" required>
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const taskForm = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+
+        taskForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const taskText = taskInput.value;
+
+            // Create task elements
+            const taskItem = document.createElement('li');
+            const taskLabel = document.createElement('span');
+            taskLabel.textContent = taskText;
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '✖';
+            deleteBtn.addEventListener('click', function () {
+                taskList.removeChild(taskItem);
+            });
+
+            const completeCheckbox = document.createElement('input');
+            completeCheckbox.type = 'checkbox';
+            completeCheckbox.addEventListener('change', function () {
+                taskLabel.style.textDecoration = completeCheckbox.checked ? 'line-through' : 'none';
+            });
+
+            taskItem.appendChild(taskLabel);
+            taskItem.appendChild(completeCheckbox);
+            taskItem.appendChild(deleteBtn);
+            taskList.appendChild(taskItem);
+
+            taskInput.value = '';
+        });
+    </script>
+</body>
+</html>
